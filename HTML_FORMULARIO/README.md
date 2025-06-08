@@ -30,15 +30,6 @@ El formulario incluye:
 
 ## Estructura del proyecto
 
-```plaintext
-/
-├── index.html        # Archivo principal con la estructura del formulario
-├── styles.css        # Archivo de estilos CSS para el diseño visual
-└── script.js         # Archivo con la lógica de validaciones y dinámicas
-```
-
----
-
 ## Características detalladas
 
 ### Validaciones personalizadas
@@ -76,16 +67,6 @@ El formulario incluye:
 2. Abre el archivo `index.html` en cualquier navegador moderno (Chrome, Firefox, Edge, Safari).
 3. Completa el formulario siguiendo las indicaciones y validaciones.
 4. Revisa el resumen antes de enviar.
-
----
-
-## Futuras mejoras
-
-- Integración con backend para almacenamiento de datos.
-- Añadir soporte para validación con expresiones regulares más complejas.
-- Mejorar la accesibilidad con ARIA roles y soporte para lectores de pantalla.
-- Añadir animaciones más suaves y mejoras en UX.
-- Posibilidad de guardar progreso y continuar luego.
 
 ---
 
