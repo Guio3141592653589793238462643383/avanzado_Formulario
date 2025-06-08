@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Avanzado</title>
+    <link rel="stylesheet" href="../_CSS/estilos.css">
+</head>
+<body>
+    <!--Contenedor inicial que va a llevar mi página-->
+    <div class="container">
+        <h1> Formulario Avanzado</h1>
+        <!--/Barra_progreso-->
+        <div class="progreso-formulario">
+            <div class="barra-progreso" id="barraProgreso"></div>
+        </div>
+        <p style="text-align: center; color:#666; margin-bottom: 30px">
+            Progreso: <span id="PorcentajeProgres">0%</span>
+        </p>
+<!--formulario-->
+        <form id="formularioAvanzado"
+            novalidate>
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text"
+                id="nombre"
+                name="nombre"
+                required
+                autofocus
+                placeholder="Ingrese su nombre"
+                pattern="[A-Za-zÁÉÍÓÚÑñ ]{3,40}"/>
+                
+                <div class="mensaje-error"id="errorNombre"></div>
+            </div>
+                            
+                <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <input type="text"
+                id="apellido"
+                name="apellido"
+                required
+                placeholder="Ingrese su apellido"
+                pattern="[A-Za-zÁÉÍÓÚÑñ ]{3,40}"/>
+                <div class="mensaje-error"id="errorApellido"></div>
+                </div>
+                <!-- Email con validación -->
+                 <div class="form-group">
+                    <label for="correo">Correo electrónico </label>
+                    <input type="email"
+                            id="correo"
+                            name="correo"
+                            required
+                            placeholder="usuario@dominio.com"
+                            pattern="^[\w\-.]+@([\w\-]+\.)+[\w\-]{5,50}$">
+                            <div class="mensaje-error" id="errorCorreo"></div>
+                            <div class="mensaje-exito" id="exitoCorreo"></div>                
+                 </div>
+                <!-- Confirmar correo -->
+                <div class="form-group">
+                    <label for="confirmarCorreo">Confirmar correo</label>
+                    <input
+                        type="email"
+                        id="confirmarCorreo"
+                        name="confirmarCorreo"
+                        required
+                        placeholder="Confirme su correo"
+                        oncopy="return false"
+                        onpaste="return false"
+                />  
+                <div class="mensaje-error" id="errorConfirmarCorreo"></div>
+                <div class="mensaje-exito" id="exitoConfirmarCorreo"></div>
+            </div>
+            <!-- Contraseña -->
+                <div class="form-group">
+                    <label for="contraseña">Contraseña</label>
+                    <input type="password"
+                     name="contraseña"
+                      id="contraseña"
+                      required
+                      placeholder="Ingrese su contraseña"
+                      pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                      title="Debe contener al menos 8 caracteres, una letra y un número"
+                     oncopy="return false"
+                    onpaste="return false">
+                    <div class="mensaje-error" id="errorContraseña"></div>
+                    <div class="mensaje-exito" id="exitoContraseña"></div>
+                </div>
+                    <!-- Confirmar contraseña -->
+                    <div class="form-group">
+                    <label for="confirmarContraseña">Confirmar contraseña</label>
+                    <input
+                        type="password"
+                        id="confirmarContraseña"
+                        name="confirmarContraseña"
+                        required
+                        placeholder="Confirme su contraseña"
+                        oncopy="return false"
+                        onpaste="return false"
+                />  
+                </div>
+                <!-- Teléfono con formato -->
+<div class="form-group">
+    <label for="telefono">Teléfono *</label>
+    <input
+      type="tel"
+      id="telefono"
+      name="telefono"
+      required
+      placeholder="300-123-4567"
+      pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+    />
+    <div class="mensaje-error" id="errorTelefono"></div>
+    <div class="mensaje-exito" id="exitoTelefono"></div>
+  </div>
+<!-- Fecha de nacimiento -->
+<div class="form-group">
+    <label for="fechaNacimiento">Fecha de nacimiento *</label>
+    <input
+      type="date"
+      id="fechaNacimiento"
+      name="fechaNacimiento"
+      required
+    />
+    <div class="mensaje-error" id="errorFecha"></div>
+    <div class="mensaje-exito" id="exitoFecha"></div>
+  </div>
+<!-- Comentarios con contador -->
+<div class="form-group">
+    <label for="comentarios">Comentarios</label>
+    <textarea
+      id="comentarios"
+      name="comentarios"
+      rows="4"
+      maxlength="500"
+      placeholder="Cuéntanos sobre ti (máximo 500 caracteres)">
+    </textarea>
+    <div class="contador-caracteres">
+      <span id="contadorComentarios">0</span>/500 caracteres
+    </div>
+  </div>
+<!-- Términos y condiciones -->
+<div class="form-group">
+    <input
+      type="checkbox"
+      id="terminos"
+      name="terminos"
+      required />
+    <label for="terminos" style="display: inline; margin-left: 8px">
+      Acepto los términos y condiciones *
+    </label>
+    <div class="mensaje-error" id="errorTerminos"></div>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn-enviar">Enviar Formulario</button>
+</div>
+
+            </form>
+        </div><!--/container-->
+    <!--scripts-->
+<script>
+   document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("formularioAvanzado");
+  const inputs = form.querySelectorAll("input, textarea");
+  const barraProgreso = document.getElementById("barraProgreso");
+  const porcentajeProgres = document.getElementById("PorcentajeProgres");
+  const contadorComentarios = document.getElementById("contadorComentarios");
+  
+  // Campos importantes para validar
+  const nombre = form.nombre;
+  const apellido = form.apellido;
+  const correo = form.correo;
+  const confirmarCorreo = form.confirmarCorreo;
+  const contraseña = form.contraseña;
+  const confirmarContraseña = form.confirmarContraseña;
+  const telefono = form.telefono;
+  const fechaNacimiento = form.fechaNacimiento;
+  const comentarios = form.comentarios;
+  const terminos = form.terminos;
+
+  // Mensajes
+  const errores = {
+    nombre: document.getElementById("errorNombre"),
+    apellido: document.getElementById("errorApellido"),
+    correo: document.getElementById("errorCorreo"),
+    confirmarCorreo: document.getElementById("errorConfirmarCorreo"),
+    contraseña: document.getElementById("errorContraseña"),
+    confirmarContraseña: null, // no tienes div, se puede crear o usar alert
+    telefono: document.getElementById("errorTelefono"),
+    fechaNacimiento: document.getElementById("errorFecha"),
+    terminos: document.getElementById("errorTerminos"),
+  };
+  const exitos = {
+    correo: document.getElementById("exitoCorreo"),
+    confirmarCorreo: document.getElementById("exitoConfirmarCorreo"),
+    contraseña: document.getElementById("exitoContraseña"),
+  };
+
+  // Crear mensaje éxito/ error para confirmar contraseña dinámicamente
+  const divErrorConfContra = document.createElement("div");
+  divErrorConfContra.classList.add("mensaje-error");
+  confirmarContraseña.parentNode.appendChild(divErrorConfContra);
+
+  // Función para mostrar mensaje error
+  function mostrarError(input, mensaje) {
+    errores[input.name].textContent = mensaje;
+    errores[input.name].style.display = "block";
+    input.classList.add("invalido");
+    input.classList.remove("valido");
+  }
+
+  function ocultarError(input) {
+    errores[input.name].textContent = "";
+    errores[input.name].style.display = "none";
+    input.classList.remove("invalido");
+  }
+
+  function mostrarExito(input) {
+    if (exitos[input.name]) {
+      exitos[input.name].textContent = "✓ Correcto";
+      exitos[input.name].style.display = "block";
+    }
+    input.classList.add("valido");
+    input.classList.remove("invalido");
+    if (errores[input.name]) {
+      errores[input.name].style.display = "none";
+    }
+  }
+
+  function ocultarExito(input) {
+    if (exitos[input.name]) {
+      exitos[input.name].textContent = "";
+      exitos[input.name].style.display = "none";
+    }
+  }
+
+  // Valida patrón con regex
+  function validarPatron(input) {
+    if (!input.checkValidity()) {
+      mostrarError(input, `Formato inválido`);
+      ocultarExito(input);
+      return false;
+    } else {
+      ocultarError(input);
+      mostrarExito(input);
+      return true;
+    }
+  }
+
+  // Validar nombre y apellido
+  function validarNombreApellido(input) {
+    const regex = /^[A-Za-záéíóúÁÉÍÓÚÑñ ]{3,40}$/;
+    if (input.value.trim() === "") {
+      mostrarError(input, "Este campo es obligatorio");
+      ocultarExito(input);
+      return false;
+    } else if (!regex.test(input.value.trim())) {
+      mostrarError(input, "Solo letras y espacios (3-40 caracteres)");
+      ocultarExito(input);
+      return false;
+    } else {
+      ocultarError(input);
+      mostrarExito(input);
+      return true;
+    }
+  }
+
+  // Validar correo con patrón y confirmación
+  function validarCorreo() {
+    const regex = /^[\w\-.]+@([\w\-]+\.)+[\w\-]{2,50}$/;
+    if (correo.value.trim() === "") {
+      mostrarError(correo, "Correo obligatorio");
+      ocultarExito(correo);
+      return false;
+    } else if (!regex.test(correo.value.trim())) {
+      mostrarError(correo, "Formato de correo inválido");
+      ocultarExito(correo);
+      return false;
+    } else {
+      ocultarError(correo);
+      mostrarExito(correo);
+      return true;
+    }
+  }
+
+  function validarConfirmarCorreo() {
+    if (confirmarCorreo.value.trim() === "") {
+      mostrarError(confirmarCorreo, "Debe confirmar su correo");
+      exitos.confirmarCorreo.style.display = "none";
+      return false;
+    } else if (confirmarCorreo.value.trim() !== correo.value.trim()) {
+      mostrarError(confirmarCorreo, "Los correos no coinciden");
+      exitos.confirmarCorreo.style.display = "none";
+      return false;
+    } else {
+      // Quitar error, poner válido
+      confirmarCorreo.classList.remove("invalido");
+      confirmarCorreo.classList.add("valido");
+
+      errores.confirmarCorreo.style.display = "none";
+      exitos.confirmarCorreo.textContent = "✓ Correcto";
+      exitos.confirmarCorreo.style.display = "block";
+      return true;
+    }
+  }
+  function mostrarError(input, mensaje) {
+  input.classList.add("invalido");
+  input.classList.remove("valido");
+  // Aquí muestras el mensaje de error en el elemento correspondiente
+  // Por ejemplo:
+  errores[input.name].textContent = mensaje;
+  errores[input.name].style.display = "block";
+}
+
+
+  // Validar contraseña y fortaleza
+  function validarContraseña() {
+    const valor = contraseña.value;
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (valor === "") {
+      mostrarError(contraseña, "Contraseña obligatoria");
+      exitos.contraseña.style.display = "none";
+      eliminarIndicadorFortaleza();
+      return false;
+    } else if (!regex.test(valor)) {
+      mostrarError(contraseña, "Mínimo 8 caracteres, una letra y un número");
+      exitos.contraseña.style.display = "none";
+      eliminarIndicadorFortaleza();
+      return false;
+    } else {
+      ocultarError(contraseña);
+      mostrarExito(contraseña);
+      mostrarIndicadorFortaleza(valor);
+      return true;
+    }
+  }
+
+  // Indicador fortaleza contraseña
+  function mostrarIndicadorFortaleza(pass) {
+    let fuerza = 0;
+    if (pass.length >= 8) fuerza++;
+    if (/[A-Z]/.test(pass)) fuerza++;
+    if (/[a-z]/.test(pass)) fuerza++;
+    if (/\d/.test(pass)) fuerza++;
+    if (/[\W_]/.test(pass)) fuerza++;
+
+    // Elimina el indicador previo
+    eliminarIndicadorFortaleza();
+
+    const div = document.createElement("div");
+    div.classList.add("password-strength");
+
+    let texto = "";
+    if (fuerza <= 2) {
+      div.classList.add("strength-weak");
+      texto = "Muy débil";
+    } else if (fuerza === 3) {
+      div.classList.add("strength-medium");
+      texto = "Media";
+    } else if (fuerza === 4) {
+      div.classList.add("strength-strong");
+      texto = "Fuerte";
+    } else if (fuerza === 5) {
+      div.classList.add("strength-very-strong");
+      texto = "Muy fuerte";
+    }
+
+    div.textContent = texto;
+    contraseña.parentNode.appendChild(div);
+  }
+
+  function eliminarIndicadorFortaleza() {
+    const divPrevio = contraseña.parentNode.querySelector(".password-strength");
+    if (divPrevio) divPrevio.remove();
+  }
+
+  // Validar confirmar contraseña
+  function validarConfirmarContraseña() {
+    if (confirmarContraseña.value.trim() === "") {
+      divErrorConfContra.textContent = "Debe confirmar su contraseña";
+      confirmarContraseña.classList.add("invalido");
+      return false;
+    } else if (confirmarContraseña.value !== contraseña.value) {
+      divErrorConfContra.textContent = "Las contraseñas no coinciden";
+      confirmarContraseña.classList.add("invalido");
+      return false;
+    } else {
+      divErrorConfContra.textContent = "";
+      confirmarContraseña.classList.remove("invalido");
+      confirmarContraseña.classList.add("valido");
+      return true;
+    }
+  }
+
+  // Validar teléfono
+  function validarTelefono() {
+    const regex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
+    if (telefono.value.trim() === "") {
+      mostrarError(telefono, "Teléfono obligatorio");
+      return false;
+    } else if (!regex.test(telefono.value.trim())) {
+      mostrarError(telefono, "Formato: 300-123-4567");
+      return false;
+    } else {
+      ocultarError(telefono);
+      mostrarExito(telefono);
+      return true;
+    }
+  }
+
+  // Validar fecha de nacimiento
+  function validarFecha() {
+    if (fechaNacimiento.value === "") {
+      mostrarError(fechaNacimiento, "Fecha obligatoria");
+      return false;
+    } else {
+      ocultarError(fechaNacimiento);
+      mostrarExito(fechaNacimiento);
+      return true;
+    }
+  }
+
+  // Validar términos
+  function validarTerminos() {
+    if (!terminos.checked) {
+      errores.terminos.textContent = "Debe aceptar los términos";
+      errores.terminos.style.display = "block";
+      return false;
+    } else {
+      errores.terminos.textContent = "";
+      errores.terminos.style.display = "none";
+      return true;
+    }
+  }
+
+  // Actualizar contador de comentarios
+  comentarios.addEventListener("input", () => {
+    const length = comentarios.value.length;
+    contadorComentarios.textContent = length;
+  });
+
+  // Actualizar barra progreso según campos válidos
+  function actualizarProgreso() {
+    let camposValidos = 0;
+    const totalCampos = 9; // nombre, apellido, correo, confirmCorreo, contraseña, confContra, teléfono, fecha, terminos
+
+    if (validarNombreApellido(nombre)) camposValidos++;
+    if (validarNombreApellido(apellido)) camposValidos++;
+    if (validarCorreo()) camposValidos++;
+    if (validarConfirmarCorreo()) camposValidos++;
+    if (validarContraseña()) camposValidos++;
+    if (validarConfirmarContraseña()) camposValidos++;
+    if (validarTelefono()) camposValidos++;
+    if (validarFecha()) camposValidos++;
+    if (validarTerminos()) camposValidos++;
+
+    let porcentaje = Math.round((camposValidos / totalCampos) * 100);
+    porcentajeProgres.textContent = porcentaje + "%";
+    barraProgreso.style.width = porcentaje + "%";
+
+    // Cambiar color barra según progreso
+    if (porcentaje < 40) {
+      barraProgreso.style.backgroundColor = "#dc3545"; // rojo
+    } else if (porcentaje < 70) {
+      barraProgreso.style.backgroundColor = "#ffc107"; // amarillo
+    } else {
+      barraProgreso.style.backgroundColor = "#28a745"; // verde
+    }
+  }
+
+  // Validar al escribir / cambiar inputs
+  inputs.forEach((input) => {
+    input.addEventListener("input", () => {
+      switch(input.name) {
+        case "nombre":
+        case "apellido":
+          validarNombreApellido(input);
+          break;
+        case "correo":
+          validarCorreo();
+          validarConfirmarCorreo();
+          break;
+        case "confirmarCorreo":
+          validarConfirmarCorreo();
+          break;
+        case "contraseña":
+          validarContraseña();
+          validarConfirmarContraseña();
+          break;
+        case "confirmarContraseña":
+          validarConfirmarContraseña();
+          break;
+        case "telefono":
+          validarTelefono();
+          break;
+        case "fechaNacimiento":
+          validarFecha();
+          break;
+        case "terminos":
+          validarTerminos();
+          break;
+      }
+      actualizarProgreso();
+    });
+  });
+
+  // También validar checkbox change
+  terminos.addEventListener("change", () => {
+    validarTerminos();
+    actualizarProgreso();
+  });
+
+  // Validar textarea comentarios sólo para contar caracteres
+  comentarios.addEventListener("input", () => {
+    contadorComentarios.textContent = comentarios.value.length;
+  });
+
+  // Validar todo al enviar
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let valido = true;
+
+    if (!validarNombreApellido(nombre)) valido = false;
+    if (!validarNombreApellido(apellido)) valido = false;
+    if (!validarCorreo()) valido = false;
+    if (!validarConfirmarCorreo()) valido = false;
+    if (!validarContraseña()) valido = false;
+    if (!validarConfirmarContraseña()) valido = false;
+    if (!validarTelefono()) valido = false;
+    if (!validarFecha()) valido = false;
+    if (!validarTerminos()) valido = false;
+
+    actualizarProgreso();
+
+    if (valido) {
+      alert("Formulario enviado correctamente!");
+      form.reset();
+      actualizarProgreso();
+      eliminarIndicadorFortaleza();
+      contadorComentarios.textContent = "0";
+      // Aquí podrías hacer un envío real, fetch o lo que necesites
+    } else {
+      alert("Por favor corrige los errores antes de enviar.");
+    }
+  });
+
+  // Inicializar
+  actualizarProgreso();
+  contadorComentarios.textContent = comentarios.value.length;
+});
+
+</script>
+</body>
+</html>
