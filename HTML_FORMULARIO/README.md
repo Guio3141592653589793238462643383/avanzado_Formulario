@@ -56,7 +56,6 @@ El formulario incluye:
 
 - Uso de tarjetas con sombras para resaltar secciones.
 - Colores contrastantes para accesibilidad.
-- Responsive para dispositivos móviles y escritorio.
 - Uso de etiquetas semánticas (`<form>`, `<label>`, `<input>`, etc.) para accesibilidad y SEO.
 
 ---
@@ -64,7 +63,7 @@ El formulario incluye:
 ## Instrucciones para ejecutar el proyecto
 
 1. Clona o descarga el repositorio completo.
-2. Abre el archivo `index.html` en cualquier navegador moderno (Chrome, Firefox, Edge, Safari).
+2. Abre el archivo `formulario_Avanzado` en cualquier navegador moderno (Chrome, Firefox, Edge, Safari).
 3. Completa el formulario siguiendo las indicaciones y validaciones.
 4. Revisa el resumen antes de enviar.
 
